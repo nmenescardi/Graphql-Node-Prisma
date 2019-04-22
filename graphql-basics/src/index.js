@@ -94,6 +94,7 @@ type Mutation {
   createPost(data: createPostInput): Post!
   deletePost(id: ID!): Post!
   createComment(data: createCommentInput): Comment!
+  deleteComment(id: ID!): Comment!
 }
 
 input createUserInput {
@@ -229,6 +230,15 @@ const resolvers = {
 
       comments.filter(comment => comment.post !== args.id);
       return deletedPosts[0];
+    },
+    deleteComment(parent, args, ctx, info) {
+      const commentIndex = comments.findIndex(
+        comment => comment.id === args.id
+      );
+
+      if (commentIndex === -1) throw new Error('Comment not found.');
+
+      return comments.splice(commentIndex, 1)[0];
     },
     createPost(parent, args, ctx, info) {
       const userExist = users.some(user => user.id === args.data.author);
