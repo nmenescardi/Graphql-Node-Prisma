@@ -227,7 +227,7 @@ const resolvers = {
 
       const deletedPosts = posts.splice(postIndex, 1);
 
-      comments.filter(comment => comment.post !== deletedPosts[0].id);
+      comments.filter(comment => comment.post !== args.id);
       return deletedPosts[0];
     },
     createPost(parent, args, ctx, info) {
