@@ -7,12 +7,12 @@ import User from './resolvers/User';
 import Post from './resolvers/Post';
 import Comment from './resolvers/Comment';
 
-const pobsub = new PubSub();
+const pubsub = new PubSub();
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers: { Query, Mutation, Subscription, User, Post, Comment },
-  context: { db, pobsub }
+  context: { db, pubsub }
 });
 
 server.start(() => console.log('server up...'));
