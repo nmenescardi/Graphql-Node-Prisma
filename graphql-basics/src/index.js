@@ -3,7 +3,7 @@ import uuid from 'uuid';
 import uuidv4 from 'uuid/v4';
 
 //demo user data
-const users = [
+let users = [
   {
     id: '1',
     name: 'Steve',
@@ -21,7 +21,7 @@ const users = [
   }
 ];
 
-const posts = [
+let posts = [
   {
     id: '55',
     title:
@@ -51,7 +51,7 @@ const posts = [
   }
 ];
 
-const comments = [
+let comments = [
   {
     id: '1',
     text: 'comentario 1',
@@ -90,7 +90,9 @@ type Query {
 
 type Mutation {
   createUser(data: createUserInput): User!
+  deleteUser(id: ID!): User!
   createPost(data: createPostInput): Post!
+  deletePost(id: ID!): Post!
   createComment(data: createCommentInput): Comment!
 }
 
@@ -196,6 +198,37 @@ const resolvers = {
       users.push(user);
 
       return user;
+    },
+    deleteUser(parent, args, ctx, info) {
+      const userIndex = users.findIndex(user => user.id === args.id);
+
+      if (userIndex === -1) throw new Error('user not exist');
+
+      const deletedUsers = users.splice(userIndex, 1);
+
+      posts = posts.filter(post => {
+        const match = post.author === args.id;
+
+        if (match) {
+          comments = comments.filter(comment => comment.post !== post.id);
+        }
+
+        return match;
+      });
+
+      comments = comments.filter(comment => comment.author !== args.id);
+
+      return deletedUsers[0];
+    },
+    deletePost(parent, args, ctx, info) {
+      const postIndex = posts.findIndex(post => post.id === args.id);
+
+      if (postIndex === -1) throw new Error('Post not found.');
+
+      const deletedPosts = posts.splice(postIndex, 1);
+
+      comments.filter(comment => comment.post !== deletedPosts[0].id);
+      return deletedPosts[0];
     },
     createPost(parent, args, ctx, info) {
       const userExist = users.some(user => user.id === args.data.author);
