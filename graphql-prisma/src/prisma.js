@@ -4,6 +4,8 @@ const prisma = new Prisma({
   typeDefs: 'src/generated/prisma.graphql',
   endpoint: 'http://192.168.99.100:4466'
 });
+
+export default prisma;
 /* 
 prisma.exists
   .Comment({
@@ -14,7 +16,7 @@ prisma.exists
     }
   })
   .then(exist => console.log('exist', exist)); */
-
+/* 
 const createPostForUser = async (authorId, data) => {
   const userExist = await prisma.exists.User({
     id: authorId
@@ -39,7 +41,7 @@ const createPostForUser = async (authorId, data) => {
   );
 
   return post.author;
-};
+}; */
 /* 
 createPostForUser('cjusuboou00130808yulht921', {
   title: 'nuevo titulo',
@@ -61,7 +63,7 @@ prisma.query.comments(null, '{ id text author { id name }}').then(data => {
   console.log('data', JSON.stringify(data, undefined, 2));
 });
 */
-
+/* 
 const updatePostForUser = async (postId, data) => {
   const postExist = await prisma.exists.Post({
     id: postId
@@ -80,7 +82,7 @@ const updatePostForUser = async (postId, data) => {
   );
 
   return post.author;
-};
+}; */
 /* 
 updatePostForUser('cjusz6eos003e0808szc9iviq', { published: false })
   .then(user => {
