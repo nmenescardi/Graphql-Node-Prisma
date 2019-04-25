@@ -1,14 +1,20 @@
 import jwt from 'jsonwebtoken';
 
-const getUserId = request => {
+const getUserId = (request, requireAuth = true) => {
   const header = request.request.headers.authorization;
 
-  if (!header) throw new Error('Authentication required');
+  if (header) {
+    const token = header.replace('Bearer ', '');
+    const decoded = jwt.verify(token, 'thisissecret');
 
-  const token = header.replace('Bearer ', '');
-  const decoded = jwt.verify(token, 'thisissecret');
+    return decoded.userId;
+  }
 
-  return decoded.userId;
+  if (requireAuth) {
+    throw new Error('Authentication required');
+  }
+
+  return null;
 };
 
 export default getUserId;
