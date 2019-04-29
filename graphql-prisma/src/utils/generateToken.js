@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 const generateToken = userId => {
-  jwt.sign({ userId: user.id }, 'thisissecret', { expiresIn: '7 deays' });
+  jwt.sign({ userId }, 'thisissecret', { expiresIn: '7 days' });
 };
 
 export default generateToken;
