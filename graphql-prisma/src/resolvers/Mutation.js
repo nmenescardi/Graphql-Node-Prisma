@@ -101,7 +101,7 @@ const Mutation = {
   async updatePost(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
 
-    const postExist = prisma.exists.Post({
+    const postExist = await prisma.exists.Post({
       id: args.id,
       author: {
         id: userId
@@ -118,7 +118,7 @@ const Mutation = {
     if (isPublished && args.data.published === false) {
       await prisma.mutation.deleteManyComments({
         where: {
-          posts: {
+          post: {
             id: args.id
           }
         }
@@ -184,7 +184,7 @@ const Mutation = {
       info
     );
   },
-  async updateComment(parent, args, { request }, info) {
+  async updateComment(parent, args, { prisma, request }, info) {
     const userId = getUserId(request);
 
     const commentExist = await prisma.exists.Comment({
