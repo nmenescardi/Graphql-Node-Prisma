@@ -1,2 +1,4 @@
 /node_modules
 graphql-prisma/config/prod.env
+config/
+dist/
